@@ -2,6 +2,7 @@
 #include "Engine/MyEngine.h"
 #include "ComponentRendererSprite.h"
 #include "ComponentController.h"
+#include "LaserController.h"
 namespace ExampleGame {
 	PlayerController::PlayerController(const glm::vec2& screenSize, std::shared_ptr<sre::SpriteAtlas>& atlasRef)
 		: window_size(screenSize), atlas(atlasRef) {}
@@ -47,7 +48,8 @@ namespace ExampleGame {
 				std::cout << "W PRESSED" << std::endl;
 				isWKeyPressed = true;
 			}
-			switch (event.key.keysym.sym) {
+
+		switch (event.key.keysym.sym) {
 			case SDLK_a:
 			{
 				std::cout << "A PRESSED" << std::endl;
@@ -60,13 +62,11 @@ namespace ExampleGame {
 				rotation -= RotSpeed;
 			}
 			break;
-			case SDLK_SPACE:
-			{
-				std::cout << "SPACE PRESSED" << std::endl;
-				ShootLaser();
 			}
-			break;
-			}
+		}
+		if (event.key.keysym.sym == SDLK_SPACE) {
+			std::cout << "SPACE PRESSED" << std::endl;
+			ShootLaser();
 		}
 		else if (event.type == SDL_KEYUP) {
 			if (event.key.keysym.sym == SDLK_w) {
@@ -88,7 +88,7 @@ namespace ExampleGame {
 		auto laserObject = engine->CreateGameObject("Laser");
 
 		// Add the ComponentLaser and ComponentRendererSprite to the laser object
-		auto laserController = std::make_shared<ComponentController>(window_size);
+		auto laserController = std::make_shared<LaserController>(window_size);
 		auto laserRenderer = std::make_shared<ExampleGame::ComponentRendererSprite>();
 		laserObject->AddComponent(laserController);
 		laserObject->AddComponent(laserRenderer);

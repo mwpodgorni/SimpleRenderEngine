@@ -1,12 +1,12 @@
-#include "ComponentController.h"
+#include "LaserController.h"
 
 #include "Engine/MyEngine.h"
 
 namespace ExampleGame {
-	ComponentController::ComponentController(const glm::vec2& screenSize) : window_size(screenSize) {	}
-	void ComponentController::Init() {
+	LaserController::LaserController(const glm::vec2& screenSize) : window_size(screenSize) {	}
+	void LaserController::Init() {
 		// Initialize random seed
-
+		std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 		// Randomize rotation
 		rotation = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 360.0f; // Random rotation between 0 and 360 degrees
@@ -18,14 +18,12 @@ namespace ExampleGame {
 		// Randomize initial position within the screen boundaries
 		std::cout << "x:" << window_size.x << "y:" << window_size.y << std::endl;
 		MyEngine::GameObject* parent = GetGameObject();
-
 		parent->position.x = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * window_size.x;
 		parent->position.y = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * window_size.y;
-
-		std::cout << "rand x:" << parent->position.x << "y:" << parent->position.y << std::endl;
+		std::cout << "rand x:" << position.x << "y:" << position.y << std::endl;
 	}
 
-	void ComponentController::Update(float deltaTime) {
+	void LaserController::Update(float deltaTime) {
 		MyEngine::GameObject* parent = GetGameObject();
 
 		// Update position based on MovDirection and wrap around the screen
