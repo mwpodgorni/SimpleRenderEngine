@@ -4,7 +4,7 @@
 
 namespace ExampleGame {
 	class LaserController : public MyEngine::Component {
-		const float LaserController::MaxVelocity = 50.0f;
+		const float LaserController::MaxVelocity = 500.0f;
 		const float RotSpeed = 50;
 		const float MovSpeed = 50;
 		const float MovAmount = 20;

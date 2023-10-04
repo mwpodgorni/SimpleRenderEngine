@@ -3,8 +3,7 @@
 #include "ComponentRendererSprite.h"
 #include "ComponentController.h"
 #include "LaserController.h"
-#include <thread>
-#include <chrono>
+#include <iostream>
 namespace ExampleGame {
 	PlayerController::PlayerController(const glm::vec2& screenSize, std::shared_ptr<sre::SpriteAtlas>& atlasRef)
 		: window_size(screenSize), atlas(atlasRef) {}
@@ -84,6 +83,11 @@ namespace ExampleGame {
 
 
 	}
+	void myMethod() {
+		std::cout << "Method called after 2 seconds!" << std::endl;
+	}
+
+
 	void PlayerController::ShootLaser() {
 		std::cout << "SHOOT" << std::endl;
 		MyEngine::Engine* engine = MyEngine::Engine::GetInstance();

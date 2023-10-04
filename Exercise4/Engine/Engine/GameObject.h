@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <queue>
 
 #include "sre/SpriteBatch.hpp"
 
@@ -16,6 +17,8 @@ namespace MyEngine {
 	public:
 		glm::vec2 position;
 		float rotation;
+		int size;
+		std::queue<std::shared_ptr<GameObject>> _collisions;
 
 		void Init();
 		void Update(float);

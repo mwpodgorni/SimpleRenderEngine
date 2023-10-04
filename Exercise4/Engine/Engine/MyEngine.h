@@ -31,11 +31,13 @@ namespace MyEngine {
 		float GetFPS() const { return 1.0 / time_elapsed.count(); }
 		float GetTimeElapsedMs() const { return 1000 * time_elapsed.count(); }
 		float GetTimeComputationMs() const { return 1000 * time_computation.count(); }
+		void DetectCollisions();
 
 		glm::vec2 GetScreenSize() const;
 
 		int GetFrame() const { return frame; }
 		float GetTime() const { return time; }
+
 
 
 		GameObject* CreateGameObject(std::string name);
