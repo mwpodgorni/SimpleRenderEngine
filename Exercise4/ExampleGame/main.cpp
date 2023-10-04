@@ -46,13 +46,6 @@ int main() {
 	playerObject->size = 50;
 
 	InitAsteroids(5);
-
-	//auto componentController = std::make_shared<ExampleGame::PlayerController>(window_size);
-
-	//auto componentController = std::shared_ptr<ExampleGame::PlayerController>(new ExampleGame::PlayerController());
-	//auto componentController = std::shared_ptr<ExampleGame::ComponentController>(new ExampleGame::ComponentController());
-
-
 	engine.Init();
 
 	renderer.startEventLoop();
@@ -68,10 +61,8 @@ void InitAsteroids(int numberOfAsteroids) {
 
 	asteroidObject1->AddComponent(asteroidController1);
 	asteroidObject1->AddComponent(asteroidRenderer1);
-	asteroidObject1->size = 50;
+	asteroidObject1->size = 40;
 	asteroids.push_back(asteroidObject1);
-
-
 
 	//---------------------------------------------------------------------------
 	auto asteroidObject2 = engine.CreateGameObject("Asteroid2");
@@ -81,7 +72,7 @@ void InitAsteroids(int numberOfAsteroids) {
 
 	asteroidObject2->AddComponent(asteroidController2);
 	asteroidObject2->AddComponent(asteroidRenderer2);
-	asteroidObject2->size = 50;
+	asteroidObject2->size = 40;
 	asteroids.push_back(asteroidObject2);
 
 	//---------------------------------------------------------------------------
@@ -92,9 +83,8 @@ void InitAsteroids(int numberOfAsteroids) {
 
 	asteroidObject3->AddComponent(asteroidController3);
 	asteroidObject3->AddComponent(asteroidRenderer3);
-	asteroidObject3->size = 50;
+	asteroidObject3->size = 40;
 	asteroids.push_back(asteroidObject3);
-
 
 	//---------------------------------------------------------------------------
 	auto asteroidObject4 = engine.CreateGameObject("Asteroid4");
@@ -104,15 +94,14 @@ void InitAsteroids(int numberOfAsteroids) {
 
 	asteroidObject4->AddComponent(asteroidController4);
 	asteroidObject4->AddComponent(asteroidRenderer4);
-	asteroidObject4->size = 50;
+	asteroidObject4->size = 40;
 	asteroids.push_back(asteroidObject4);
-
 
 	//---------------------------------------------------------------------------
 	auto asteroidObject5 = engine.CreateGameObject("Asteroid5");
 	auto asteroidController5 = std::make_shared<ExampleGame::AsteroidController>(window_size);
 	auto asteroidRenderer5 = std::make_shared<ExampleGame::ComponentRendererSprite>();
-	asteroidObject5->size = 50;
+	asteroidObject5->size = 40;
 	asteroidRenderer5->sprite = atlas->get("meteorGrey_big3.png");
 
 	asteroidObject5->AddComponent(asteroidController5);
@@ -121,8 +110,7 @@ void InitAsteroids(int numberOfAsteroids) {
 
 }
 
-void InitGame() {
-}
+void InitGame() {}
 
 void ProcessEvents(SDL_Event& event) {
 	engine.ProcessEvents(event);
@@ -130,9 +118,6 @@ void ProcessEvents(SDL_Event& event) {
 
 void Update(float deltaTime) {
 	engine.Update(deltaTime);
-
-
-
 }
 
 void Render() {

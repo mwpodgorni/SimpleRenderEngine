@@ -51,22 +51,24 @@ namespace MyEngine {
 
 						if (dist <= collisionThreshold) {
 							if ((*it2)->GetName().find("Player") != std::string::npos) {
-								printf("Asteroid and Player collided\n");
+								std::cout << "Asteroid and Player collided" << std::endl;
 							}
 							else if ((*it2)->GetName().find("Laser") != std::string::npos) {
-								printf("Asteroid and Laser collided\n");
+								std::cout << "Asteroid and Laser collided" << std::endl;
+								deleteQueue.push(std::distance(_root->_children.begin(), it1));
+								deleteQueue.push(std::distance(_root->_children.begin(), it2));
+
 							}
 
-							// Add it1 and it2 to deleteQueue
-							deleteQueue.push(std::distance(_root->_children.begin(), it1));
-							deleteQueue.push(std::distance(_root->_children.begin(), it2));
+
+							/*	deleteQueue.push(std::distance(_root->_children.begin(), it1));
+							deleteQueue.push(std::distance(_root->_children.begin(), it2));*/
 						}
 					}
 				}
 			}
 		}
 
-		// Process the deleteQueue and erase collided objects
 		while (!deleteQueue.empty()) {
 			int idx1 = deleteQueue.front();
 			deleteQueue.pop();
@@ -76,8 +78,8 @@ namespace MyEngine {
 			auto it1 = std::next(_root->_children.begin(), idx1);
 			auto it2 = std::next(_root->_children.begin(), idx2);
 
-			_root->_children.erase(it1);
 			_root->_children.erase(it2);
+			_root->_children.erase(it1);
 		}
 	}
 	void Engine::Update(float deltaTime) {

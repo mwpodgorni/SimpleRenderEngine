@@ -17,7 +17,6 @@ namespace ExampleGame {
 
 		glm::vec2 playerSize = glm::vec2(98, 96);
 
-
 		AsteroidController(const glm::vec2& screenSize);
 		void Init() override;
 		void Update(float) override;

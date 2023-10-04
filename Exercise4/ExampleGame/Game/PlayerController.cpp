@@ -20,9 +20,9 @@ namespace ExampleGame {
 
 		parent->rotation = rotation;
 
-		// Ensure that rotation is within the range of 0 to 360 degrees
+		// ensure that rotation is within the range of 0 to 360 degrees
 		rotation = fmod(rotation, 360.0f);
-		// Handle negative rotation values
+		// handle negative rotation values
 		if (rotation < 0.0f) {
 			rotation += 360.0f;
 		}
@@ -30,8 +30,6 @@ namespace ExampleGame {
 		MovDirection = glm::vec2(-glm::sin(radians), glm::cos(radians));
 
 		if (isWKeyPressed) {
-			//parent->position += glm::normalize(MovDirection) * MovAmount * glm::sin(MovSpeed * engine->GetTime());
-			//parent->position += glm::normalize(MovDirection) * MovAmount * deltaTime;
 			parent->position += glm::normalize(MovDirection) * MovAmount * MovSpeed * deltaTime;
 
 			parent->position.x = fmod(parent->position.x, window_size.x);
@@ -44,26 +42,22 @@ namespace ExampleGame {
 		}
 	}
 	void PlayerController::Render(sre::SpriteBatch::SpriteBatchBuilder&) {
-		//std::cout << "PLAYER RENDER" << std::endl;
 	}
 	void PlayerController::KeyEvent(SDL_Event& event) {
 		switch (event.key.keysym.sym) {
 		case SDLK_a:
 		{
-			//std::cout << "A PRESSED" << std::endl;
 			rotation += RotSpeed;
 		}
 		break;
 		case SDLK_d:
 		{
-			//std::cout << "D PRESSED" << std::endl;
 			rotation -= RotSpeed;
 		}
 		break;
 		}
 		if (event.type == SDL_KEYDOWN) {
 			if (event.key.keysym.sym == SDLK_w) {
-				//std::cout << "W PRESSED" << std::endl;
 				isWKeyPressed = true;
 			}
 			if (event.key.keysym.sym == SDLK_SPACE) {
@@ -83,10 +77,6 @@ namespace ExampleGame {
 
 
 	}
-	void myMethod() {
-		std::cout << "Method called after 2 seconds!" << std::endl;
-	}
-
 
 	void PlayerController::ShootLaser() {
 		std::cout << "SHOOT" << std::endl;
@@ -101,7 +91,7 @@ namespace ExampleGame {
 		auto laserRenderer = std::make_shared<ExampleGame::ComponentRendererSprite>();
 		laserObject->AddComponent(laserController);
 		laserObject->AddComponent(laserRenderer);
-
+		laserObject->size = 30;
 		// Set the sprite for the laser (replace "laserSprite.png" with the actual sprite)
 		laserRenderer->sprite = atlas->get("laserRed04.png");
 
