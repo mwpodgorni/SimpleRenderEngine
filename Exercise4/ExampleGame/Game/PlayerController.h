@@ -7,7 +7,7 @@
 namespace ExampleGame {
 	class PlayerController : public MyEngine::Component {
 		const float RotSpeed = 10;
-		const float MovSpeed = 0.1;
+		const float MovSpeed = 50;
 		const float MovAmount = 10;
 		glm::vec2 MovDirection = glm::vec2(1, 1);
 		glm::vec2 window_size;
@@ -15,6 +15,8 @@ namespace ExampleGame {
 		std::shared_ptr<sre::SpriteAtlas>& atlas;
 
 	public:
+		glm::vec2 playerSize = glm::vec2(99, 75);
+
 		glm::vec2 position;
 		float rotation;
 

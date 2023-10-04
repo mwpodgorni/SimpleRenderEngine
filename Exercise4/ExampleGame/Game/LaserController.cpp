@@ -6,7 +6,6 @@ namespace ExampleGame {
 	LaserController::LaserController(const glm::vec2& screenSize) : window_size(screenSize) {	}
 	void LaserController::Init() {
 		// Initialize random seed
-		std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 		// Randomize rotation
 		rotation = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 360.0f; // Random rotation between 0 and 360 degrees
@@ -30,13 +29,6 @@ namespace ExampleGame {
 		parent->position += MovDirection * MaxVelocity * deltaTime;
 
 		// Wrap around screen
-		parent->position.x = fmod(parent->position.x, window_size.x);
-		if (parent->position.x < 0)
-			parent->position.x += window_size.x;
-
-		parent->position.y = fmod(parent->position.y, window_size.y);
-		if (parent->position.y < 0)
-			parent->position.y += window_size.y;
 		/*	MyEngine::Engine* engine = MyEngine::Engine::GetInstance();
 			MyEngine::GameObject* parent = GetGameObject();
 

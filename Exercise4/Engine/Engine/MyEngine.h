@@ -37,7 +37,9 @@ namespace MyEngine {
 		int GetFrame() const { return frame; }
 		float GetTime() const { return time; }
 
+
 		GameObject* CreateGameObject(std::string name);
+
 
 	private:
 		std::shared_ptr<GameObject> _root;

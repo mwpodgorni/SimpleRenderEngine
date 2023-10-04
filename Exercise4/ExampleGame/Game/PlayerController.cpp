@@ -3,6 +3,8 @@
 #include "ComponentRendererSprite.h"
 #include "ComponentController.h"
 #include "LaserController.h"
+#include <thread>
+#include <chrono>
 namespace ExampleGame {
 	PlayerController::PlayerController(const glm::vec2& screenSize, std::shared_ptr<sre::SpriteAtlas>& atlasRef)
 		: window_size(screenSize), atlas(atlasRef) {}
@@ -29,7 +31,10 @@ namespace ExampleGame {
 		MovDirection = glm::vec2(-glm::sin(radians), glm::cos(radians));
 
 		if (isWKeyPressed) {
-			parent->position += MovDirection * MovAmount * glm::sin(MovSpeed * engine->GetTime());
+			//parent->position += glm::normalize(MovDirection) * MovAmount * glm::sin(MovSpeed * engine->GetTime());
+			//parent->position += glm::normalize(MovDirection) * MovAmount * deltaTime;
+			parent->position += glm::normalize(MovDirection) * MovAmount * MovSpeed * deltaTime;
+
 			parent->position.x = fmod(parent->position.x, window_size.x);
 			//wrap around screen
 			if (parent->position.x < 0)
@@ -43,30 +48,29 @@ namespace ExampleGame {
 		//std::cout << "PLAYER RENDER" << std::endl;
 	}
 	void PlayerController::KeyEvent(SDL_Event& event) {
+		switch (event.key.keysym.sym) {
+		case SDLK_a:
+		{
+			//std::cout << "A PRESSED" << std::endl;
+			rotation += RotSpeed;
+		}
+		break;
+		case SDLK_d:
+		{
+			//std::cout << "D PRESSED" << std::endl;
+			rotation -= RotSpeed;
+		}
+		break;
+		}
 		if (event.type == SDL_KEYDOWN) {
 			if (event.key.keysym.sym == SDLK_w) {
-				std::cout << "W PRESSED" << std::endl;
+				//std::cout << "W PRESSED" << std::endl;
 				isWKeyPressed = true;
 			}
-
-		switch (event.key.keysym.sym) {
-			case SDLK_a:
-			{
-				std::cout << "A PRESSED" << std::endl;
-				rotation += RotSpeed;
+			if (event.key.keysym.sym == SDLK_SPACE) {
+				std::cout << "SPACE PRESSED" << std::endl;
+				ShootLaser();
 			}
-			break;
-			case SDLK_d:
-			{
-				std::cout << "D PRESSED" << std::endl;
-				rotation -= RotSpeed;
-			}
-			break;
-			}
-		}
-		if (event.key.keysym.sym == SDLK_SPACE) {
-			std::cout << "SPACE PRESSED" << std::endl;
-			ShootLaser();
 		}
 		else if (event.type == SDL_KEYUP) {
 			if (event.key.keysym.sym == SDLK_w) {
@@ -77,6 +81,7 @@ namespace ExampleGame {
 				break;
 			}
 		}
+
 
 	}
 	void PlayerController::ShootLaser() {
@@ -100,5 +105,6 @@ namespace ExampleGame {
 		laserObject->position = parent->position;
 		laserObject->rotation = parent->rotation;
 		laserController->MovDirection = MovDirection;
+
 	}
 }
