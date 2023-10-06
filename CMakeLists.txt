@@ -188,5 +188,6 @@ include_directories(${SRE_INCLUDE})
 SET(USE_SRE_PROJECT_EXAMPLES ON CACHE BOOL "Enable project examples for SRE")
 if (USE_SRE_PROJECT_EXAMPLES)
 add_subdirectory(project)
-add_subdirectory(Exercise4)
+
+add_subdirectory(Exercise6)
 endif(USE_SRE_PROJECT_EXAMPLES)
