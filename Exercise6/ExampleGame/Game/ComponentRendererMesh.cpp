@@ -1,78 +1,32 @@
 #include "ComponentRendererMesh.h"
+#include "LevelLayout.h"
+#include "Engine/MyEngine.h"
+#include "Engine/ComponentFactory.h"
 
 #include "glm/gtx/transform.hpp"
 
-//void ComponentRendererMesh::Init(rapidjson::Value& serializedData) {
-//	_mesh = sre::Mesh::create()
-//		.withPositions(positions)
-//		.withUVs(uvs)
-//		.withIndices(idxs, sre::MeshTopology::Triangles, 0)
-//		.build();
-//	_material = sre::Shader::getUnlit()->createMaterial();
-//
-//	_texture = sre::Texture::create().withFile("data/level0.png")
-//		.withGenerateMipmaps(false)
-//		.withFilterSampling(false)
-//		.build();
-//	_material->setTexture(_texture);
-//
-//
-//
-//	float textureWidth = 1039.0f / 16.0f;  // Adjust based on your calculation
-//	float textureHeight = 389.0f / 6.0f;    // Adjust based on your calculation
-//
-//	std::vector<glm::vec4> uvCoordinates = {
-//		{0.0f, 0.0f, 0.0f, 0.0f},                          // Bottom-left (u, v, s, t)
-//		{textureWidth, 0.0f, 0.0f, 0.0f},                  // Bottom-right (u, v, s, t)
-//		{textureWidth, textureHeight, 0.0f, 0.0f},          // Top-right (u, v, s, t)
-//		{0.0f, textureHeight, 0.0f, 0.0f}                   // Top-left (u, v, s, t)
-//	};
-//
-//	// Use UV coordinates when creating the mesh
-//	_mesh = sre::Mesh::create()
-//		.withPositions(positions)
-//		.withUVs(uvCoordinates)  // Pass UV coordinates with four components
-//		.withIndices(idxs, sre::MeshTopology::Triangles, 0)
-//		.build();
-//}
+float textureWidth = 1039.0f;
+float textureHeight = 389.0f;
+float elementWidth = 64.0f;
+float elementHeight = 64.0f;
+
+float uMin = 0.0f;
+float uMax = elementWidth / textureWidth;
+float vMin = 1.0f - elementHeight / textureHeight;
+float vMax = 1.0f;
+
+std::vector<glm::vec4> uvCoordinates = {
+	{uMin, vMax, 0.0f, 0.0f},  // Top-left (u, v, s, t)
+	{uMax, vMax, 0.0f, 0.0f},  // Top-right (u, v, s, t)
+	{uMax, vMin, 0.0f, 0.0f},  // Bottom-right (u, v, s, t)
+	{uMin, vMin, 0.0f, 0.0f}   // Bottom-left (u, v, s, t)
+};
 void ComponentRendererMesh::Init(rapidjson::Value& serializedData) {
 	// Load the texture
 	_texture = sre::Texture::create().withFile("data/level0.png")
 		.withGenerateMipmaps(false)
 		.withFilterSampling(false)
 		.build();
-
-	// Create a new mesh with updated UV coordinates
-	float textureWidth = 1039.0f;
-	float textureHeight = 389.0f;
-	float elementWidth = 64.0f;             // Adjust based on the element size
-	float elementHeight = 64.0f;            // Adjust based on the element size
-
-	// Calculate UV coordinates for the first element (top-left corner) without rotation
-	float uMin = 0.0f;
-	float uMax = elementWidth / textureWidth;
-	float vMin = 1.0f - elementHeight / textureHeight;
-	float vMax = 1.0f;
-
-	std::vector<glm::vec4> uvCoordinates = {
-		{uMin, vMax, 0.0f, 0.0f},  // Top-left (u, v, s, t)
-		{uMax, vMax, 0.0f, 0.0f},  // Top-right (u, v, s, t)
-		{uMax, vMin, 0.0f, 0.0f},  // Bottom-right (u, v, s, t)
-		{uMin, vMin, 0.0f, 0.0f}   // Bottom-left (u, v, s, t)
-	};
-
-	std::shared_ptr<sre::Mesh> newMesh = sre::Mesh::create()
-		.withPositions(positions)
-		.withUVs(uvCoordinates)  // Pass UV coordinates with four components
-		.withIndices(idxs, sre::MeshTopology::Triangles, 0)
-		.build();
-
-	// Swap the existing mesh with the new one
-	_mesh = newMesh;
-
-	// Create the material and set the texture
-	_material = sre::Shader::getUnlit()->createMaterial();
-	_material->setTexture(_texture);
 }
 
 void ComponentRendererMesh::Update(float deltaTime) {
@@ -80,34 +34,55 @@ void ComponentRendererMesh::Update(float deltaTime) {
 }
 
 void ComponentRendererMesh::Render(sre::RenderPass& renderPass) {
-	//renderPass.draw(_mesh, GetGameObject()->transform, _material);
-	// Create a rotation matrix for a 90-degree rotation around the Z-axis
-	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0, 0, 1));
+	// Use the ComponentFactory to get the LevelLayout component
+	auto levelLayoutComponent = MyEngine::ComponentFactory::GetComponentOfType("LEVEL_LAYOUT");
 
-	// Apply the rotation to the cube's transformation matrix
-	glm::mat4 transformedMatrix = GetGameObject()->transform * rotationMatrix;
+	if (levelLayoutComponent) {
+		// Cast the component to the LevelLayout type
+		auto levelLayout = std::dynamic_pointer_cast<LevelLayout>(levelLayoutComponent);
 
-	// Render the cube with the rotated transformation
-	renderPass.draw(_mesh, transformedMatrix, _material);
-	//static auto cube = sre::Mesh::create().withCube(0.5f).build();
-	//static std::vector<std::shared_ptr<sre::Material> > materials = {
-	//		sre::Shader::getUnlit()->createMaterial(),
-	//		sre::Shader::getUnlit()->createMaterial(),
-	//		sre::Shader::getUnlit()->createMaterial()
-	//};
+		if (levelLayout) {
+			// Access layout and cubePositions from the LevelLayout component
+			const std::vector<std::vector<int>>& layout = levelLayout->layout;
+			const std::vector<glm::vec3>& cubePositions = levelLayout->cubePositions;
 
-	//std::vector<glm::vec3> positions = {
-	//		{-1,0,-2},
-	//		{ 0,0,-3},
-	//		{ 1,0,-4}
-	//};
-	//std::vector<sre::Color> colors = {
-	//		{1,0,0,1},
-	//		{0,1,0,1},
-	//		{0,0,1,1},
-	//};
-	//for (int i = 0; i < positions.size(); i++) {
-	//	materials[i]->setColor(colors[i]);
-	//	renderPass.draw(cube, glm::translate(positions[i]), materials[i]);
-	//}
+			// Now you can use the layout and cubePositions as needed
+			// ...
+
+			static auto cube = sre::Mesh::create().withCube(0.5f)
+				.withUVs({
+				// Front face
+				{uMin, vMax, 0.0f, 0.0f},
+				{uMax, vMax, 0.0f, 0.0f},
+				{uMax, vMin, 0.0f, 0.0f},
+				{uMin, vMin, 0.0f, 0.0f},
+
+				// Back face
+				{uMin, vMax, 0.0f, 0.0f},
+				{uMax, vMax, 0.0f, 0.0f},
+				{uMax, vMin, 0.0f, 0.0f},
+				{uMin, vMin, 0.0f, 0.0f},
+
+				// Left face
+				{uMin, vMax, 0.0f, 0.0f},
+				{uMax, vMax, 0.0f, 0.0f},
+				{uMax, vMin, 0.0f, 0.0f},
+				{uMin, vMin, 0.0f, 0.0f},
+
+				// Right face
+				{uMin, vMax, 0.0f, 0.0f},
+				{uMax, vMax, 0.0f, 0.0f},
+				{uMax, vMin, 0.0f, 0.0f},
+				{uMin, vMin, 0.0f, 0.0f}
+					})
+				.build();
+
+			static std::shared_ptr<sre::Material> material = sre::Shader::getUnlit()->createMaterial();
+			material->setTexture(_texture);
+
+			for (const auto& position : cubePositions) {
+				renderPass.draw(cube, glm::translate(position), material);
+			}
+		}
+	}
 }

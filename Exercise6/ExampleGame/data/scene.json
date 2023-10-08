@@ -1,53 +1,80 @@
 {
-	"root": {
-		"name": "_root",
-		"transform": {
-			"position": [0, 0, 0],
-			"rotation": [0, 0, 0],
-			"scale": [1, 1, 1]
-		},
-		"components": [],
-		"children": [
-			{
-				"name": "camera",
-				"transform": {
-					"position": [-2, 0, 2],
-					"rotation": [0, -35, 0],
-					"scale": [1, 1, 1]
-				},
-				"components": [
-					{
-						"typeId": "CAMERA",
-						"serializedData": {
-							"projectionType": 1,
-							"projectionParams": [45,0.1,1000]
-						}
-					},
-					{
-						"typeId": "CONTROLLER",
-						"serializedData": {
-							"movSpeed": 60,
-							"rotSpeed": 100
-						}
-					}
-				],
-				"children": []
-			},
-			{
-				"name": "cube0",
-				"transform": {
-					"position": [0, 0, 0],
-					"rotation": [0, 0, 0],
-					"scale": [1, 1, 1]
-				},
-				"components": [
-					{
-						"typeId": "CUBE_RENDERER",
-						"serializedData": {	}
-					}
-				],
-				"children": []
-			}
-		]
-	}
+  "root": {
+    "name": "_root",
+    "transform": {
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "components": [],
+    "children": [
+      {
+        "name": "levelLayout",
+        "transform": {
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1]
+        },
+        "components": [
+          {
+            "typeId": "LEVEL_LAYOUT",
+            "serializedData": {
+              "layout": [[1, 1, 1, 1, 1]],
+              "size": [5, 1, 1],
+              "cubePositions": [
+                [0, 0, 0],
+                [1, 0, 0],
+                [2, 0, 0],
+                [3, 0, 0],
+                [4, 0, 0]
+              ]
+            }
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "camera",
+        "transform": {
+          "position": [-2, 0, 2],
+          "rotation": [0, -35, 0],
+          "scale": [1, 1, 1]
+        },
+        "components": [
+          {
+            "typeId": "CAMERA",
+            "serializedData": {
+              "projectionType": 1,
+              "projectionParams": [45, 0.1, 1000]
+            }
+          },
+          {
+            "typeId": "CONTROLLER",
+            "serializedData": {
+              "movSpeed": 60,
+              "rotSpeed": 100
+            }
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "cube0",
+        "transform": {
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1]
+        },
+        "components": [
+          {
+            "typeId": "CUBE_RENDERER",
+            "serializedData": {
+              "positions": []
+            }
+          }
+        ],
+        "children": []
+      }
+    ]
+  }
 }
