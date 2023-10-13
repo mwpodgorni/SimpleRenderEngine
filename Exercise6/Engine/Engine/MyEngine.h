@@ -22,7 +22,7 @@ namespace MyEngine {
 	public:
 		static Engine* GetInstance() { return _instance; }
 	public:
-		const glm::vec2 WIN_SIZE = glm::vec2(1200, 800);
+		const glm::vec2 WIN_SIZE = glm::vec2(1200, 600);
 		const std::chrono::duration<double> MAX_FRAME_TIME = std::chrono::duration<double>(1 / 60.0);
 
 		Engine();

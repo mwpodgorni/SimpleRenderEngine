@@ -6,8 +6,9 @@ void LevelLayout::Init(rapidjson::Value& serializedData) {
 		const rapidjson::Value& layoutData = serializedData["layout"];
 		if (layoutData.IsArray()) {
 			for (rapidjson::SizeType i = 0; i < layoutData.Size(); i++) {
-				const rapidjson::Value& row = layoutData[i];
-				std::vector<int> rowData;
+				int tileValue = layoutData[i].GetInt();
+				layout.push_back(tileValue);
+		/*		const rapidjson::Value& row = layoutData[i];
 
 				if (row.IsArray()) {
 					for (rapidjson::SizeType j = 0; j < row.Size(); j++) {
@@ -16,7 +17,7 @@ void LevelLayout::Init(rapidjson::Value& serializedData) {
 					}
 				}
 
-				layout.push_back(rowData);
+				layout.push_back(rowData);*/
 			}
 		}
 	}

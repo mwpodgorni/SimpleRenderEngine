@@ -69,15 +69,15 @@ void ComponentRendererMesh::Render(sre::RenderPass& renderPass) {
 		auto levelLayout = std::dynamic_pointer_cast<LevelLayout>(levelLayoutComponent);
 
 		if (levelLayout) {
-			const std::vector<std::vector<int>>& layout = levelLayout->layout;
+			const std::vector<int>& layout = levelLayout->layout;
 			const std::vector<glm::vec3>& cubePositions = levelLayout->cubePositions;
 
 			for (size_t i = 0; i < cubePositions.size(); i++) {
 
 				static std::shared_ptr<sre::Material> material = sre::Shader::getUnlit()->createMaterial();
 				material->setTexture(_texture);
-				if (layout[0][i] != 0) {
-					std::vector<glm::vec4> coordinates = GetUvCoordinates(layout[0][i]);
+				if (layout[i] != 0) {
+					std::vector<glm::vec4> coordinates = GetUvCoordinates(layout[i]);
 					auto cube = sre::Mesh::create().withCube(0.5f)
 						.withUVs(coordinates)
 						.build();

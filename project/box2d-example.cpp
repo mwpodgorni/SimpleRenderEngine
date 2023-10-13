@@ -103,7 +103,11 @@ public:
         };
 
         // spawn a few boxes
-        spawnBox(500, 500, 45);
+        spawnBox(200, 250, 0, b2_staticBody);
+        spawnBox(300, 250, 0, b2_staticBody);
+        spawnBox(400, 250, 0, b2_staticBody);
+        spawnBox(500, 250, 0, b2_staticBody);
+        spawnBox(600, 250, 0, b2_staticBody);
 
         r.startEventLoop();
     }
@@ -151,12 +155,12 @@ public:
             int mouseX = static_cast<int>(pos.x);
             int mouseY = static_cast<int>(pos.y);
 
-            spawnBox(mouseX, mouseY, 0);
+            spawnBox(mouseX, mouseY, 0, b2_dynamicBody);
 
         }
     }
 
-    void spawnBox(int posX, int posY, float angle) {
+    void spawnBox(int posX, int posY, float angle, b2BodyType body_type) {
         auto sprite = atlas->get("sprite");
         const int size = 20;
         sprite.setScale({size,size});
@@ -166,17 +170,17 @@ public:
         sprites.push_back(sprite);
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_dynamicBody;                //this will be a dynamic body
+        myBodyDef.type = body_type;                //this will be a dynamic body
         myBodyDef.position.Set(posX,posY);              //set the starting position
         myBodyDef.angle = angle;                        //set the starting angle
         auto dynBody = m_world.CreateBody(&myBodyDef);
 
         b2PolygonShape boxShape;
-        boxShape.SetAsBox(size,size);
+        boxShape.SetAsBox(50,size);
 
         b2FixtureDef boxFixtureDef;
         boxFixtureDef.shape = &boxShape;
-        boxFixtureDef.restitution = 0.8;   // elasticity [0;1]
+        boxFixtureDef.restitution = 2.8;   // elasticity [0;1]
         boxFixtureDef.density = 1;         // weight
         dynBody->CreateFixture(&boxFixtureDef);
         physicsEntities.push_back(dynBody);

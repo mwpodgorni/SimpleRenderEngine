@@ -2,32 +2,91 @@
   "root": {
     "name": "_root",
     "transform": {
-      "position": [0, 0, 0],
-      "rotation": [0, 0, 0],
-      "scale": [1, 1, 1]
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
     },
     "components": [],
     "children": [
       {
         "name": "levelLayout",
         "transform": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0],
-          "scale": [1, 1, 1]
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
         },
         "components": [
           {
             "typeId": "LEVEL_LAYOUT",
             "serializedData": {
-              "layout": [[2, 0, 2, 13, 13, 13]],
-              "size": [5, 1, 1],
+              "layout": [
+                2,
+                0,
+                2,
+                13,
+                13,
+                13
+              ],
+              "size": [
+                5,
+                1,
+                1
+              ],
               "cubePositions": [
-                [0, 0, 1],
-                [1, 0, 0],
-                [2, 0, 1],
-                [3, 0, 0],
-                [4, 0, 0],
-                [5, 0, 0]
+                [
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ],
+                [
+                  3,
+                  0,
+                  0
+                ],
+                [
+                  4,
+                  0,
+                  0
+                ],
+                [
+                  5,
+                  0,
+                  0
+                ]
               ]
             }
           }
@@ -37,16 +96,32 @@
       {
         "name": "camera",
         "transform": {
-          "position": [-2, 0, 2],
-          "rotation": [0, -35, 0],
-          "scale": [1, 1, 1]
+          "position": [
+            -2,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            -35,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
         },
         "components": [
           {
             "typeId": "CAMERA",
             "serializedData": {
               "projectionType": 1,
-              "projectionParams": [45, 0.1, 1000]
+              "projectionParams": [
+                45,
+                0.1,
+                1000
+              ]
             }
           },
           {
@@ -62,9 +137,21 @@
       {
         "name": "cube0",
         "transform": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0],
-          "scale": [1, 1, 1]
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
         },
         "components": [
           {

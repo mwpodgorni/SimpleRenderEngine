@@ -5,7 +5,7 @@
 
 class LevelLayout : public MyEngine::Component {
 public:
-	std::vector<std::vector<int>> layout;
+	std::vector<int> layout;
 	std::vector<glm::vec3> cubePositions;
 
 	void Init(rapidjson::Value& serializedData) override;
