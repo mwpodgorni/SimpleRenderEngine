@@ -9,12 +9,12 @@ float textureHeight = 389.0f;
 float elementWidth = 64.0f;
 float elementHeight = 64.0f;
 
-int numRows = 6;      // Number of rows in the PNG file
-int numCols = 16;     // Number of textures per row
+int numRows = 6;      // number of rows in the PNG file
+int numCols = 16;     // number of textures per row
 
-int textureIndex = 16; // Index of the desired texture (0-based index)
+int textureIndex = 16; // index of the desired texture
 
-
+// mapping coordinates from json to texture
 std::vector<glm::vec4> GetUvCoordinates(int textureIndex) {
 	int row = textureIndex / numCols;
 	int col = textureIndex % numCols;
@@ -24,12 +24,13 @@ std::vector<glm::vec4> GetUvCoordinates(int textureIndex) {
 	float vMin = 1.0f - (static_cast<float>(row) + 1.0f) * (elementHeight / textureHeight);
 	float vMax = 1.0f - static_cast<float>(row) * (elementHeight / textureHeight);
 
+	// 4 sides of cube
 	std::vector<glm::vec4> uvCoordinates = {
 		// front
-		{uMin, vMax, 0.0f, 0.0f},  // Top-left (u, v, s, t)
-		{uMax, vMax, 0.0f, 0.0f},  // Top-right (u, v, s, t)
-		{uMax, vMin, 0.0f, 0.0f},  // Bottom-right (u, v, s, t)
-		{uMin, vMin, 0.0f, 0.0f},   // Bottom-left (u, v, s, t)
+		{uMin, vMax, 0.0f, 0.0f},
+		{uMax, vMax, 0.0f, 0.0f},
+		{uMax, vMin, 0.0f, 0.0f},
+		{uMin, vMin, 0.0f, 0.0f},
 		// left
 		{uMin, vMax, 0.0f, 0.0f},
 		{uMax, vMax, 0.0f, 0.0f},
@@ -50,7 +51,7 @@ std::vector<glm::vec4> GetUvCoordinates(int textureIndex) {
 }
 
 void ComponentRendererMesh::Init(rapidjson::Value& serializedData) {
-	// Load the texture
+	// load the texture
 	_texture = sre::Texture::create().withFile("data/level0.png")
 		.withGenerateMipmaps(false)
 		.withFilterSampling(false)
@@ -62,7 +63,7 @@ void ComponentRendererMesh::Update(float deltaTime) {
 }
 
 void ComponentRendererMesh::Render(sre::RenderPass& renderPass) {
-	// Use the ComponentFactory to get the LevelLayout component
+	// use the ComponentFactory to get the LevelLayout component
 	auto levelLayoutComponent = MyEngine::ComponentFactory::GetComponentOfType("LEVEL_LAYOUT");
 
 	if (levelLayoutComponent) {
