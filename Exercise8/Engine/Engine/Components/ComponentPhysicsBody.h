@@ -25,6 +25,7 @@ public:
 	glm::vec2 getLinearVelocity();
 	void SetPosition(glm::vec2 position);
 	glm::vec2 GetPosition();
+	void SetSensor(bool isSensor);
 
 private:
 	b2World* _world;

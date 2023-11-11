@@ -2,7 +2,9 @@
 
 #include "Engine/MyEngine.h"
 #include "Engine/Components/ComponentRendererSprite.h"
+#include "ComponentController.h"
 #include "Engine/ComponentFactory.h"
+
 
 void ComponentBackground::Init(rapidjson::Value&) {
 	auto gameObject = GetGameObject().lock();
@@ -22,18 +24,31 @@ void ComponentBackground::Init(rapidjson::Value&) {
 	}
 }
 void ComponentBackground::Update(float deltaTime) {
-	/*std::cout << "UPDATE<" << std::endl;
-	auto controller =  MyEngine::ComponentFactory::GetComponentOfType("CONTROLLER");
-	auto controllerObject = controller->GetGameObject();
-	std::cout << "UPDATE2" << std::endl;
-	std::shared_ptr<MyEngine::GameObject> controllerPointer = controllerObject.lock();
-	glm::vec3 controllerPosition = controllerPointer->GetPosition();
-	std::cout << "UPDATE3" << std::endl;
 
-	auto gameObject = GetGameObject().lock(); 
-	glm::vec3 pos = gameObject->GetPosition();
-	std::cout << "UPDATE4" << std::endl;
-	pos.x = controllerPosition.x;
-	gameObject->SetPosition(pos);*/
+	auto gameObject = GetGameObject().lock();
+
+	// Update the background position with a constant value every frame
+	auto pos = gameObject->GetPosition();
+	pos.x += 67.0f * deltaTime;  // Adjust the constant value as needed
+	gameObject->SetPosition(pos);
 
 }
+//if (controller) {
+//	std::cout << "ComponentController found!" << std::endl;
+
+//	//// Assuming ComponentController is the type you expect
+//	//auto controllerComponent = std::static_pointer_cast<ComponentController>(controller);
+
+//	//// Get the position of the ComponentController
+//	//glm::vec3 controllerPosition = controllerComponent->GetControllerPosition();
+
+//	//// Update the position of the background
+//	//auto gameObjectBackground = GetGameObject().lock();
+//	//std::cout << "SAVED:" << pos.x << std::endl;
+//	//pos.x = controllerPosition.x;
+//	//gameObjectBackground->SetPosition(pos);
+//}
+//else {
+//	// Handle the case where the ComponentController is not found
+//	std::cout << "ComponentController not found!" << std::endl;
+//}

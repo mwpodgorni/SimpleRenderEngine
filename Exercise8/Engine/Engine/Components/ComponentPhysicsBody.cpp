@@ -85,7 +85,13 @@ glm::vec2 ComponentPhysicsBody::GetPosition() {
 	b2Vec2 pos = _body->GetPosition();
 	return { pos.x, pos.y };
 }
+void ComponentPhysicsBody::SetPosition(glm::vec2 position) {
+	auto engine = MyEngine::Engine::GetInstance();
+	glm::vec2 physicsPos = { position.x / engine->GetPhysicsScale(), position.y / engine->GetPhysicsScale() };
+	_body->SetTransform(b2Vec2(physicsPos.x, physicsPos.y), _body->GetAngle());
 
+	GetGameObject().lock()->SetPosition({ position.x, position.y, 0.0f });
+}
 void ComponentPhysicsBody::addImpulse(glm::vec2 impulse) {
 	//std::cout << "ADD IMPULSE" << impulse.y << std::endl;
 	b2Vec2 iForceV{ impulse.x,impulse.y };
@@ -108,4 +114,9 @@ void ComponentPhysicsBody::setLinearVelocity(glm::vec2 velocity) {
 		_body->SetAwake(true);
 	}
 	_body->SetLinearVelocity(v);
+}
+void ComponentPhysicsBody::SetSensor(bool isSensor) {
+	if (_fixture) {
+		_fixture->SetSensor(isSensor);
+	}
 }

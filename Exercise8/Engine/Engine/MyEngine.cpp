@@ -38,13 +38,13 @@ namespace MyEngine {
 		_renderer.frameUpdate = [this](float deltaTime) {
 			UpdatePhysics();
 			Update(deltaTime);
-		};
+			};
 		_renderer.keyEvent = [this](SDL_Event& event) { ProcessEvents(event); };
 		_renderer.setWindowSize(WIN_SIZE);
 		_renderer.init();
 
 		// initialize b2
-		_b2World = new b2World(b2Vec2(0, -9.8));
+		_b2World = new b2World(b2Vec2(0, 0));
 		_b2World->SetContactListener(this);
 
 		// load scene file
@@ -75,7 +75,7 @@ namespace MyEngine {
 				_b2World->SetDebugDraw(nullptr);
 			}
 		}
-			
+
 
 		if (auto root = _root.lock())
 			root->KeyEvent(event);
@@ -95,7 +95,7 @@ namespace MyEngine {
 			PHYSICS_ITERATION_POSITION,
 			PHYSICS_ITERATION_VELOCITY
 		);
-
+		HandleDeferredDestruction();
 		for (auto kvp : _physicsLookup) {
 			auto b2Body = kvp.first->GetBody();
 
@@ -144,16 +144,32 @@ namespace MyEngine {
 		}
 	}
 
+	void Engine::SetGravity(float x, float y) {
+		_b2World->SetGravity(b2Vec2(x, y));
+	}
 	void Engine::RegisterPhysicsComponent(ComponentPhysicsBody* body) {
 		_physicsLookup[body->_fixture] = body;
 	}
 
-	void Engine::DeregisterPhysicsComponent(ComponentPhysicsBody*  body) {
+	void Engine::DeregisterPhysicsComponent(ComponentPhysicsBody* body) {
 		auto iter = _physicsLookup.find(body->_fixture);
-		if (iter != _physicsLookup.end())
-			_physicsLookup.erase(iter);
-	}
+		if (iter != _physicsLookup.end()) {
+			// Mark the fixture for destruction
+			_fixturesToDestroy.push_back(iter->first);
 
+			_physicsLookup.erase(iter);
+		}
+	}
+	void Engine::HandleDeferredDestruction() {
+		// Destroy fixtures outside of the world step
+		for (auto fixture : _fixturesToDestroy) {
+			b2Body* body = fixture->GetBody();
+			body->DestroyFixture(fixture);
+		}
+
+		// Clear the list of fixtures to destroy
+		_fixturesToDestroy.clear();
+	}
 	std::weak_ptr<GameObject> Engine::CreateGameObject(std::string name) {
 		assert(_gameObjects.find(name) == _gameObjects.end() && "Cannot create two objects with same name");
 
@@ -163,7 +179,7 @@ namespace MyEngine {
 		ret->_parent = _root;
 		ret->SetName(name);
 
-		if(auto parent = _root.lock())
+		if (auto parent = _root.lock())
 			parent->AddChild(ret);
 
 		return _gameObjects[name];
@@ -188,6 +204,7 @@ namespace MyEngine {
 	}
 
 	void Engine::DestroyGameObject(GameObject* gameObject) {
+
 		if (gameObject == nullptr)
 			return;
 
