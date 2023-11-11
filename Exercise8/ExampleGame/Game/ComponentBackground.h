@@ -4,4 +4,5 @@
 
 class ComponentBackground : public MyEngine::Component {
 	void Init(rapidjson::Value&) override;
+	void Update(float deltaTime) override;
 };

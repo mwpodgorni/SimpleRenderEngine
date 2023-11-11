@@ -8,6 +8,7 @@ class ComponentController : public MyEngine::Component {
 	void Update(float deltaTime) override;
 	void KeyEvent(SDL_Event&) override;
 	void OnCollisionStart(ComponentPhysicsBody* other) override;
+	glm::vec3 GetControllerPosition();
 
 private:
 	glm::vec3 _mov;

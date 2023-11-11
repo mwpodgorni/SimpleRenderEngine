@@ -12,7 +12,7 @@ void ComponentSpawner::Init(rapidjson::Value&) {
 	// you can tweak these to find a pipe distriv
 	float xOffsetStart = 45;
 	float curve = 250;
-	float heighVariation = 10;
+	float heighVariation = 30;
 	float xVariation = 50;
 	int nWalls = 50;
 
@@ -25,10 +25,11 @@ void ComponentSpawner::Init(rapidjson::Value&) {
 		};
 		glm::vec3 posTop{
 			i * 300 + xOffset,
-			winHeight - sin(i * curve) * heighVariation,
+			winHeight - sin(i * curve) * heighVariation-250,
 			0
 		};
-
+		std::cout << "Top pos" << posTop.y << std::endl;
+		std::cout << "Bot pos" << posBot.y << std::endl;
 		SpawnWall("WallBottom" + std::to_string(i), "column_bottom.png", posBot);
 		SpawnWall("WallTop" + std::to_string(i), "column_top.png", posTop);
 	}
