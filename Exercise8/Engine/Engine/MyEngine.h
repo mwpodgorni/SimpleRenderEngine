@@ -29,6 +29,7 @@ namespace MyEngine {
 		const float PHYSICS_FIXED_FRAME_TIME = 1 / 60.0f;
 		const int   PHYSICS_ITERATION_POSITION = 2;
 		const int   PHYSICS_ITERATION_VELOCITY = 6;
+		glm::vec3 playerPos;
 
 		Engine();
 
@@ -50,6 +51,8 @@ namespace MyEngine {
 		b2World* GetB2World() { return _b2World; }
 		float GetPhysicsScale() { return _physicsScale; }
 		void Engine::SetGravity(float x, float y);
+		glm::vec3 GetPlayerPos();
+		void UpdatePlayerPos(glm::vec3);
 
 		void RegisterPhysicsComponent(ComponentPhysicsBody* body);
 		void DeregisterPhysicsComponent(ComponentPhysicsBody* body);
@@ -58,7 +61,6 @@ namespace MyEngine {
 		std::weak_ptr<GameObject> CreateGameObject(std::string name, std::weak_ptr<GameObject> parent);
 		std::weak_ptr<GameObject> GetGameObject(std::string name) { return _gameObjects[name]; }
 		void DestroyGameObject(GameObject* gameObject);
-		void HandleDeferredDestruction();
 
 	private:
 		// scene graph
@@ -82,7 +84,6 @@ namespace MyEngine {
 		b2World* _b2World;
 		float _physicsScale = 100;
 		std::map<b2Fixture*, ComponentPhysicsBody*> _physicsLookup;
-		std::vector<b2Fixture*> _fixturesToDestroy;
 		void BeginContact(b2Contact* contact) override;
 		void EndContact(b2Contact* contact) override;
 		void HandleContact(b2Contact* contact, bool begin);

@@ -8,8 +8,6 @@
 void ComponentSpawner::Init(rapidjson::Value&) {
 	float winHeight = MyEngine::Engine::GetInstance()->GetScreenSize().y;
 
-	// these should probably go in the json file
-	// you can tweak these to find a pipe distriv
 	float xOffsetStart = 45;
 	float curve = 250;
 	float heighVariation = 30;
@@ -43,8 +41,8 @@ void ComponentSpawner::Init(rapidjson::Value&) {
 		SpawnObject("Coin" + std::to_string(i), "coin.png", posCoin, true);
 	}
 	SpawnFloor("Ground", 10);
+	SpawnFloor("Ceiling", winHeight - 100);
 }
-
 void ComponentSpawner::SpawnObject(std::string name, std::string spriteId, glm::vec3 pos, bool isSensor) {
 	auto engine = MyEngine::Engine::GetInstance();
 	auto gameObject = GetGameObject();
@@ -71,11 +69,11 @@ void ComponentSpawner::SpawnFloor(std::string name, float yPos) {
 
 	auto body = floor->CreateComponent<ComponentPhysicsBody>().lock();
 
-	glm::vec2 groundSize{ engine->GetScreenSize().x, 10.0f };
+	glm::vec2 groundSize{ 5000, 10.0f };
 	body->CreateBody(b2_staticBody, false, groundSize);
 
 	glm::vec3 pos{
-		engine->GetScreenSize().x / 2,
+		0,
 		yPos,
 		0
 	};

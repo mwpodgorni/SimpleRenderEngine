@@ -24,31 +24,10 @@ void ComponentBackground::Init(rapidjson::Value&) {
 	}
 }
 void ComponentBackground::Update(float deltaTime) {
-
+	glm::vec3 playerPos = MyEngine::Engine::GetInstance()->GetPlayerPos();
 	auto gameObject = GetGameObject().lock();
 
-	// Update the background position with a constant value every frame
 	auto pos = gameObject->GetPosition();
-	pos.x += 67.0f * deltaTime;  // Adjust the constant value as needed
+	pos.x = playerPos.x - 172;
 	gameObject->SetPosition(pos);
-
 }
-//if (controller) {
-//	std::cout << "ComponentController found!" << std::endl;
-
-//	//// Assuming ComponentController is the type you expect
-//	//auto controllerComponent = std::static_pointer_cast<ComponentController>(controller);
-
-//	//// Get the position of the ComponentController
-//	//glm::vec3 controllerPosition = controllerComponent->GetControllerPosition();
-
-//	//// Update the position of the background
-//	//auto gameObjectBackground = GetGameObject().lock();
-//	//std::cout << "SAVED:" << pos.x << std::endl;
-//	//pos.x = controllerPosition.x;
-//	//gameObjectBackground->SetPosition(pos);
-//}
-//else {
-//	// Handle the case where the ComponentController is not found
-//	std::cout << "ComponentController not found!" << std::endl;
-//}

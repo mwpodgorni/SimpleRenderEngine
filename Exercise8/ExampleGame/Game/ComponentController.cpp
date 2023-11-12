@@ -9,19 +9,10 @@
 void ComponentController::Init(rapidjson::Value& serializedData) {
 	mov_speed = serializedData["movSpeed"].GetFloat();
 
-	//auto gameObject = GetGameObject().lock();
-	//if (gameObject) {
-	//	body = gameObject->CreateComponent<ComponentPhysicsBody>().lock();
-	//	body->CreateBody(b2_dynamicBody, false, glm::vec2(10.0f, 15.0f));
-	//	//body->setLinearVelocity(glm::vec2(mov_speed, 0.0f));
-	//}
-
-
 	// start text
 	auto engine = MyEngine::Engine::GetInstance();
 	auto current = GetGameObject();
 	float width = engine->GetScreenSize().x;
-
 	text = engine->CreateGameObject("GetReady", current).lock();
 	auto renderer = text->CreateComponent<ComponentRendererSprite>().lock();
 	renderer->SetSprite("bird", "get-ready.png");
@@ -36,12 +27,9 @@ void ComponentController::Init(rapidjson::Value& serializedData) {
 }
 
 void ComponentController::Update(float deltaTime) {
-	/*auto gameObject = GetGameObject().lock();
-
+	auto gameObject = GetGameObject().lock();
 	glm::vec3 pos = gameObject->GetPosition();
-	pos.x = body->GetPosition().x * 100;
-	pos.y = body->GetPosition().y * 100;
-	gameObject->SetPosition(pos);*/
+	MyEngine::Engine::GetInstance()->UpdatePlayerPos(pos);
 }
 
 void ComponentController::KeyEvent(SDL_Event& event)
@@ -57,26 +45,23 @@ void ComponentController::KeyEvent(SDL_Event& event)
 			glm::vec2 impulseVector(0.0f, 4.0f + std::max(0.0f, -body->getLinearVelocity().y));
 			body->addImpulse(impulseVector);
 		}
-		//else {
-		//	RestartGame();
-		//}
 
 	}
 }
 
 void ComponentController::OnCollisionStart(ComponentPhysicsBody* other) {
-	std::cout << "OnCollisionStart" << std::endl;
 	auto collidingObject = other->GetGameObject().lock();
 
 	if (collidingObject) {
 		std::string objectName = collidingObject->GetName();
-
 		if (objectName.find("Coin") != std::string::npos) {
 			auto engine = MyEngine::Engine::GetInstance();
 			engine->DeregisterPhysicsComponent(other);
 			engine->DestroyGameObject(collidingObject.get());
 		}
-		if (objectName.find("Wall") != std::string::npos && !gameOver) {
+		if ((objectName.find("Wall") != std::string::npos
+			|| objectName.find("Ground") != std::string::npos
+			|| objectName.find("Ceiling") != std::string::npos) && !gameOver) {
 			GameOver();
 		}
 	}

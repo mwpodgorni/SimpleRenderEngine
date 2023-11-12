@@ -95,7 +95,6 @@ namespace MyEngine {
 			PHYSICS_ITERATION_POSITION,
 			PHYSICS_ITERATION_VELOCITY
 		);
-		HandleDeferredDestruction();
 		for (auto kvp : _physicsLookup) {
 			auto b2Body = kvp.first->GetBody();
 
@@ -147,6 +146,15 @@ namespace MyEngine {
 	void Engine::SetGravity(float x, float y) {
 		_b2World->SetGravity(b2Vec2(x, y));
 	}
+	glm::vec3 Engine::GetPlayerPos() {
+		return playerPos;
+	}
+	void Engine::UpdatePlayerPos(glm::vec3 pos) {
+		playerPos = pos;
+	}
+
+	void UpdatePlayerPos(glm::vec3);
+
 	void Engine::RegisterPhysicsComponent(ComponentPhysicsBody* body) {
 		_physicsLookup[body->_fixture] = body;
 	}
@@ -154,21 +162,9 @@ namespace MyEngine {
 	void Engine::DeregisterPhysicsComponent(ComponentPhysicsBody* body) {
 		auto iter = _physicsLookup.find(body->_fixture);
 		if (iter != _physicsLookup.end()) {
-			// Mark the fixture for destruction
-			_fixturesToDestroy.push_back(iter->first);
 
 			_physicsLookup.erase(iter);
 		}
-	}
-	void Engine::HandleDeferredDestruction() {
-		// Destroy fixtures outside of the world step
-		for (auto fixture : _fixturesToDestroy) {
-			b2Body* body = fixture->GetBody();
-			body->DestroyFixture(fixture);
-		}
-
-		// Clear the list of fixtures to destroy
-		_fixturesToDestroy.clear();
 	}
 	std::weak_ptr<GameObject> Engine::CreateGameObject(std::string name) {
 		assert(_gameObjects.find(name) == _gameObjects.end() && "Cannot create two objects with same name");
