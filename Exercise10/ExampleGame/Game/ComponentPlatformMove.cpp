@@ -1,7 +1,7 @@
 #include "ComponentPlatformMove.h"
-
 #include "Engine/MyEngine.h"
 #include "Engine/Components/ComponentPhysicsBody.h"
+
 
 void ComponentPlatformMove::Init(rapidjson::Value& serializedData) {
 	auto gameObject = GetGameObject().lock();
@@ -12,10 +12,12 @@ void ComponentPlatformMove::Init(rapidjson::Value& serializedData) {
 
 	_yoyo = serializedData["yoyo"].GetBool();
 	_duration = serializedData["duration"].GetFloat();
+
 	_str = pos + MyEngine::GameObject::DeserializeVector(serializedData["start"]);
 	_end = pos + MyEngine::GameObject::DeserializeVector(serializedData["end"]);
 	_easing = static_cast<EasingType>(serializedData["easing"].GetInt());
 
+	_easing = SmoothStep;
 	_body = gameObject->FindComponent<ComponentPhysicsBody>();
 }
 
@@ -47,9 +49,20 @@ void ComponentPlatformMove::Update(float delta) {
 
 float ComponentPlatformMove::Easing(float t) {
 	switch (_easing) {
-		case Constant: return 0;
-		case Linear: return t;
-		case Sin: return glm::sin(t);
-		// TODO add your easing functions here
+	case Constant: return 0;
+	case Linear: return t;
+	case Sin: return glm::sin(t);
+	case UpDown: return UpDownEasing(t);
+	case DownUp: return DownUpEasing(t);
+	case SmoothStep: return SmoothStepEasing(t);
 	}
+}
+float ComponentPlatformMove::UpDownEasing(float t) {
+	return 0.5f + 0.5f * glm::sin(pi * t);
+}
+float ComponentPlatformMove::DownUpEasing(float t) {
+	return 0.5f - 0.5f * glm::sin(pi * t);
+}
+float ComponentPlatformMove::SmoothStepEasing(float t) {
+	return glm::smoothstep(0.0f, 1.0f, glm::mix(0.0f, 1.0f, t));
 }

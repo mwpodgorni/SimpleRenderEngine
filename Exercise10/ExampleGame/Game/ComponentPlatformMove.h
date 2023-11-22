@@ -5,12 +5,15 @@
 enum EasingType {
 	Constant,
 	Linear,
-	Sin
-	// add your easings here
+	Sin,
+	UpDown,
+	DownUp,
+	SmoothStep,
 };
 
 class ComponentPlatformMove : public MyEngine::Component {
 private:
+	static constexpr float pi = 3.14159265358979323846f;
 	bool _yoyo;
 	float _duration;
 	glm::vec3 _str;
@@ -27,4 +30,7 @@ private:
 	virtual void Update(float) override;
 
 	float Easing(float t);
+	float UpDownEasing(float t);
+	float DownUpEasing(float t);
+	float SmoothStepEasing(float t);
 };
