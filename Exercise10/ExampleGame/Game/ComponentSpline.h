@@ -15,4 +15,5 @@ private:
 
 	// for debugging purposes
 	std::vector<std::vector<glm::vec3>> _pairs;
+	std::vector<glm::vec3> _tangentPoints;
 };
