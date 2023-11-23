@@ -15,7 +15,7 @@ void ComponentPlatform::Init(rapidjson::Value& serializedData) {
 		offset.x = 1;
 	if (_type == PlatformType::Wall)
 		offset.y = 1;
-	
+
 	// body
 	glm::vec2 sizeBody = glm::vec2(_tileSize, _tileSize) + offset * _tileSize * (_size - 1);
 	sizeBody /= 2;
