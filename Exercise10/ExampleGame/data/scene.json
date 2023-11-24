@@ -96,8 +96,8 @@
             "serializedData": {
               "yoyo": true,
               "duration": 4.0,
-              "start": [0, 30, 0],
-              "end": [0, -100, 0],
+              "start": [0, 0, 0],
+              "end": [0, -80, 0],
               "easing": 5
             }
           }
