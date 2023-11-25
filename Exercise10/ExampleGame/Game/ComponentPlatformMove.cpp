@@ -44,7 +44,6 @@ void ComponentPlatformMove::Update(float delta) {
 
 	auto a = d * (1 / MyEngine::Engine::GetInstance()->PHYSICS_SCALE);
 	_body.lock()->setLinearVelocity(d);
-	//gameObject->SetPosition(pos);
 }
 
 float ComponentPlatformMove::Easing(float t) {

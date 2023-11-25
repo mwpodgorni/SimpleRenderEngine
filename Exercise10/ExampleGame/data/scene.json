@@ -189,7 +189,7 @@
           {
             "typeId": "SPLINE",
             "serializedData": {
-              "speed": 2,
+              "speed": 1,
               "points": [
                 [0, 0, 0],
                 [63, 63, 0],
